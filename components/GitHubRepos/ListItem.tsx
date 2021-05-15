@@ -9,7 +9,7 @@ const ListItem: React.FC<{item: Types.GitHubRepo; onPress: () => void}> = ({
   item,
   onPress,
 }) => (
-  <TouchableHighlight onPress={onPress} underlayColor="#e3e3e3">
+  <TouchableHighlight onPress={onPress} underlayColor="#aaa">
     <View style={styles.item}>
       <Text style={styles.title}>{item.name}</Text>
       <Text style={styles.description}>{item.description}</Text>
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomColor: '#ddd',
     borderBottomWidth: 1,
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 32,
