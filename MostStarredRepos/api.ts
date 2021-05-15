@@ -1,13 +1,16 @@
 import {Endpoints} from '@octokit/types';
 
-import * as Helpers from '../helpers';
+import * as ApiUtils from '../utils/api';
+import * as GitHubTypes from '../components/GitHubRepos/types';
 
 const GITHUB_API_URL = 'https://api.github.com';
 const GITHUB_REPOS_ENDPOINT = '/search/repositories';
 
 type GetRepositoriesEndpoint = Endpoints[`GET ${typeof GITHUB_REPOS_ENDPOINT}`];
 
-export const fetchGithubRepos = async (page: number) => {
+export const fetchGithubRepos = async (
+  page: number,
+): Promise<GitHubTypes.GitHubRepos> => {
   const endpointParams: Required<GetRepositoriesEndpoint['parameters']> = {
     q: 'stars:>1',
     sort: 'stars',
@@ -16,7 +19,7 @@ export const fetchGithubRepos = async (page: number) => {
     page,
   };
 
-  const searchParams = Helpers.buildSearchParams(endpointParams);
+  const searchParams = ApiUtils.buildSearchParams(endpointParams);
 
   // TODO: add error handling
   const response = await fetch(

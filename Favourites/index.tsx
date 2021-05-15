@@ -1,5 +1,5 @@
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
-import React from 'react';
 
 import GitHubRepos from '../components/GitHubRepos';
 import {useRootStore} from '../RootStateContext';
@@ -7,8 +7,15 @@ import {useRootStore} from '../RootStateContext';
 const Favourites: React.FC = observer(() => {
   const {favoriteReposStore} = useRootStore();
 
+  useEffect(() => {
+    favoriteReposStore.loadFavoriteRepos();
+  }, [favoriteReposStore]);
+
   return (
-    <GitHubRepos repos={favoriteReposStore.favoriteRepos} isLoading={false} />
+    <GitHubRepos
+      repos={Object.values(favoriteReposStore.favoriteRepos)}
+      isLoading={favoriteReposStore.isLoading}
+    />
   );
 });
 

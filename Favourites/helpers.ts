@@ -1,26 +1,27 @@
 import * as DeviceStorageService from '../services/deviceStorageService';
-import * as Types from '../components/GitHubRepos/types';
+import * as GitHubTypes from '../components/GitHubRepos/types';
+import {FavoriteRepos} from '../stores/FavoriteReposStore';
 
 const STORAGE_KEY = 'favoriteRepos';
 
 export const getFavoriteRepos = async () => {
-  const storedRepos: Types.GitHubRepos = await DeviceStorageService.getData(
+  const storedRepos: FavoriteRepos = await DeviceStorageService.getData(
     STORAGE_KEY,
   );
 
-  return storedRepos;
+  return storedRepos || {};
 };
 
-export const addRepoToFavorites = async (repo: Types.GitHubRepo) => {
-  const storedRepos = await getFavoriteRepos();
-  const updatedRepos = (storedRepos || []).concat(repo);
+export const addRepoToFavorites = async (repo: GitHubTypes.GitHubRepo) => {
+  const favoriteRepos = await getFavoriteRepos();
+  favoriteRepos[repo.id] = repo;
 
-  await DeviceStorageService.storeData(STORAGE_KEY, updatedRepos);
+  await DeviceStorageService.storeData(STORAGE_KEY, favoriteRepos);
 };
 
 export const removeRepoFromFavorites = async (repoId: number) => {
-  const storedRepos = await getFavoriteRepos();
-  const updatedRepos = storedRepos.filter(repo => repo.id !== repoId);
+  const favoriteRepos = await getFavoriteRepos();
+  delete favoriteRepos[repoId];
 
-  await DeviceStorageService.storeData(STORAGE_KEY, updatedRepos);
+  await DeviceStorageService.storeData(STORAGE_KEY, favoriteRepos);
 };

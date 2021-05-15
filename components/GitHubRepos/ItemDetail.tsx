@@ -36,6 +36,17 @@ const ItemDetail: React.FC = observer(() => {
     );
   }
 
+  const isFavorite =
+    favoriteReposStore.favoriteRepos[selectedRepo.id] !== undefined;
+
+  const toggleFavorite = async () => {
+    if (isFavorite) {
+      favoriteReposStore.removeFromFavoriteRepos(selectedRepo.id);
+    } else {
+      favoriteReposStore.addToFavoriteRepos(selectedRepo);
+    }
+  };
+
   return (
     <View style={{padding: 20}}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -68,9 +79,8 @@ const ItemDetail: React.FC = observer(() => {
           />
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => favoriteReposStore.addToFavoriteRepos(selectedRepo)}>
-        <Icon name="heart" size={32} color="#ed4956" />
+      <TouchableOpacity onPress={toggleFavorite}>
+        <Icon name="heart" size={32} color={isFavorite ? '#ed4956' : '#777'} />
       </TouchableOpacity>
     </View>
   );

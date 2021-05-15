@@ -1,10 +1,15 @@
-import {observable, action, makeObservable} from 'mobx';
+import {observable, action, makeObservable, runInAction} from 'mobx';
 
-import * as Types from '../components/GitHubRepos/types';
-import * as Helpers from '../Favourites/helpers';
+import * as GitHubTypes from '../components/GitHubRepos/types';
+import * as FavouritesHelpers from '../Favourites/helpers';
+
+export interface FavoriteRepos {
+  [repoId: number]: GitHubTypes.GitHubRepo;
+}
 
 class FavoriteReposStore {
-  @observable favoriteRepos: Types.GitHubRepos = [];
+  @observable favoriteRepos: FavoriteRepos = {};
+  @observable isLoading = false;
 
   constructor() {
     makeObservable(this);
@@ -12,20 +17,25 @@ class FavoriteReposStore {
 
   @action
   loadFavoriteRepos = async () => {
-    const favoriteRepos = await Helpers.getFavoriteRepos();
-    this.favoriteRepos = favoriteRepos;
+    this.isLoading = true;
+    const favoriteRepos = await FavouritesHelpers.getFavoriteRepos();
+
+    runInAction(() => {
+      this.favoriteRepos = favoriteRepos || {};
+      this.isLoading = false;
+    });
   };
 
   @action
-  addToFavoriteRepos = async (repo: Types.GitHubRepo) => {
-    this.favoriteRepos.push(repo);
-    await Helpers.addRepoToFavorites(repo);
+  addToFavoriteRepos = async (repo: GitHubTypes.GitHubRepo) => {
+    this.favoriteRepos[repo.id] = repo;
+    await FavouritesHelpers.addRepoToFavorites(repo);
   };
 
   @action
   removeFromFavoriteRepos = async (repoId: number) => {
-    this.favoriteRepos = this.favoriteRepos.filter(repo => repo.id !== repoId);
-    await Helpers.removeRepoFromFavorites(repoId);
+    delete this.favoriteRepos[repoId];
+    await FavouritesHelpers.removeRepoFromFavorites(repoId);
   };
 }
 
