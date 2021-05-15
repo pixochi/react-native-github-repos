@@ -13,8 +13,10 @@ Contains the following:
 - Share feature
 
 
-![Screenshot 2021-05-15 at 20 46 52](https://user-images.githubusercontent.com/7315105/118374931-c6e14d80-b5be-11eb-832e-d805825950a9.png)
+![Screenshot 2021-05-15 at 20 46 15](https://user-images.githubusercontent.com/7315105/118374934-c779e400-b5be-11eb-87a4-700fbae8adaf.png)
+
 
 ![Screenshot 2021-05-15 at 20 46 37](https://user-images.githubusercontent.com/7315105/118374933-c779e400-b5be-11eb-8e52-d55c743535cf.png)
 
-![Screenshot 2021-05-15 at 20 46 15](https://user-images.githubusercontent.com/7315105/118374934-c779e400-b5be-11eb-87a4-700fbae8adaf.png)
+
+![Screenshot 2021-05-15 at 20 46 52](https://user-images.githubusercontent.com/7315105/118374931-c6e14d80-b5be-11eb-832e-d805825950a9.png)
