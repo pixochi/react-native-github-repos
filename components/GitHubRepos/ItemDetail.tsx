@@ -9,6 +9,7 @@ import {useRootStore} from '../../RootStateContext';
 
 import * as Helpers from './helpers';
 import * as Types from './types';
+import ShareRepoButton from './ShareRepoButton';
 
 type DetailScreenNavigationProps = Types.StackScreenComponentProps<Types.Screens.RepoDetail>;
 
@@ -79,9 +80,19 @@ const ItemDetail: React.FC = observer(() => {
           />
         </View>
       </View>
-      <TouchableOpacity onPress={toggleFavorite}>
-        <Icon name="heart" size={32} color={isFavorite ? '#ed4956' : '#777'} />
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row', marginTop: 12}}>
+        <TouchableOpacity onPress={toggleFavorite}>
+          <Icon
+            name="heart"
+            size={32}
+            color={isFavorite ? '#ed4956' : '#777'}
+          />
+        </TouchableOpacity>
+        <ShareRepoButton
+          repoName={selectedRepo.name}
+          repoUrl={selectedRepo.html_url}
+        />
+      </View>
     </View>
   );
 });
