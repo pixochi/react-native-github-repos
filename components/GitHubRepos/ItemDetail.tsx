@@ -1,5 +1,5 @@
 import React, {useLayoutEffect} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Linking, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {observer} from 'mobx-react-lite';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -49,38 +49,18 @@ const ItemDetail: React.FC = observer(() => {
   };
 
   return (
-    <View style={{padding: 20}}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{fontSize: 20}}>{selectedRepo.full_name}</Text>
-      </View>
-      <View style={{marginTop: 8, flexDirection: 'row', alignItems: 'center'}}>
-        <Image
-          source={{
-            uri: selectedRepo.owner.avatar_url,
-          }}
-          style={{width: 28, height: 28}}
-        />
-        <Text style={{marginLeft: 8}}>{selectedRepo.owner.login}</Text>
-      </View>
-      <Text style={{marginTop: 20}}>{selectedRepo.description}</Text>
-      <View style={{flexDirection: 'row', marginTop: 12}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text>{Helpers.normalizeCount(selectedRepo.stargazers_count)}</Text>
-          <Icon style={{marginLeft: 4}} name="star" size={16} color="#f4b840" />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{marginLeft: 20}}>
-            {Helpers.normalizeCount(selectedRepo.forks_count)}
-          </Text>
-          <Icon
-            style={{marginLeft: 4}}
-            name="code-fork"
-            size={16}
-            color="#f4b840"
-          />
-        </View>
-      </View>
-      <View style={{flexDirection: 'row', marginTop: 12}}>
+    <View style={{padding: 20, backgroundColor: '#fff', flex: 1}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Text
+          style={{fontSize: 28}}
+          onPress={() => Linking.openURL(selectedRepo.html_url)}>
+          {selectedRepo.full_name}
+        </Text>
         <TouchableOpacity onPress={toggleFavorite}>
           <Icon
             name="heart"
@@ -88,6 +68,50 @@ const ItemDetail: React.FC = observer(() => {
             color={isFavorite ? '#ed4956' : '#777'}
           />
         </TouchableOpacity>
+      </View>
+
+      <Text style={{marginTop: 16, fontSize: 16}}>
+        {selectedRepo.description}
+      </Text>
+      <View style={{marginTop: 16, flexDirection: 'row', alignItems: 'center'}}>
+        <Image
+          source={{
+            uri: selectedRepo.owner.avatar_url,
+          }}
+          style={{width: 28, height: 28}}
+        />
+        <Text style={{marginLeft: 8, fontSize: 16}}>
+          {selectedRepo.owner.login}
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 4,
+          justifyContent: 'space-between',
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text>{Helpers.normalizeCount(selectedRepo.stargazers_count)}</Text>
+            <Icon
+              style={{marginLeft: 4}}
+              name="star"
+              size={16}
+              color="#f4b840"
+            />
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{marginLeft: 20}}>
+              {Helpers.normalizeCount(selectedRepo.forks_count)}
+            </Text>
+            <Icon
+              style={{marginLeft: 4}}
+              name="code-fork"
+              size={16}
+              color="#f4b840"
+            />
+          </View>
+        </View>
         <ShareRepoButton
           repoName={selectedRepo.name}
           repoUrl={selectedRepo.html_url}
