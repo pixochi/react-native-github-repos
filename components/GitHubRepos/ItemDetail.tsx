@@ -40,7 +40,7 @@ const ItemDetail: React.FC = observer(() => {
   const isFavorite =
     favoriteReposStore.favoriteRepos[selectedRepo.id] !== undefined;
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = () => {
     if (isFavorite) {
       favoriteReposStore.removeFromFavoriteRepos(selectedRepo.id);
     } else {
@@ -66,7 +66,6 @@ const ItemDetail: React.FC = observer(() => {
           />
         </TouchableOpacity>
       </View>
-
       <Text style={styles.description}>{selectedRepo.description}</Text>
       <View style={styles.ownerContainer}>
         <Image
