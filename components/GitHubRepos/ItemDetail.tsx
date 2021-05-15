@@ -1,5 +1,5 @@
 import React, {useLayoutEffect} from 'react';
-import {Image, Linking, Text, View} from 'react-native';
+import {Image, Linking, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {observer} from 'mobx-react-lite';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -48,17 +48,14 @@ const ItemDetail: React.FC = observer(() => {
     }
   };
 
+  const openRepoURL = () => {
+    Linking.openURL(selectedRepo.html_url);
+  };
+
   return (
-    <View style={{padding: 20, backgroundColor: '#fff', flex: 1}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <Text
-          style={{fontSize: 28}}
-          onPress={() => Linking.openURL(selectedRepo.html_url)}>
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.repoName} onPress={openRepoURL}>
           {selectedRepo.full_name}
         </Text>
         <TouchableOpacity onPress={toggleFavorite}>
@@ -70,42 +67,33 @@ const ItemDetail: React.FC = observer(() => {
         </TouchableOpacity>
       </View>
 
-      <Text style={{marginTop: 16, fontSize: 16}}>
-        {selectedRepo.description}
-      </Text>
-      <View style={{marginTop: 16, flexDirection: 'row', alignItems: 'center'}}>
+      <Text style={styles.description}>{selectedRepo.description}</Text>
+      <View style={styles.ownerContainer}>
         <Image
           source={{
             uri: selectedRepo.owner.avatar_url,
           }}
-          style={{width: 28, height: 28}}
+          style={styles.ownerImage}
         />
-        <Text style={{marginLeft: 8, fontSize: 16}}>
-          {selectedRepo.owner.login}
-        </Text>
+        <Text style={styles.ownerLogin}>{selectedRepo.owner.login}</Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 4,
-          justifyContent: 'space-between',
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={{flexDirection: 'row'}}>
+      <View style={styles.infoContainer}>
+        <View style={styles.statsContainer}>
+          <View style={styles.countContainer}>
             <Text>{Helpers.normalizeCount(selectedRepo.stargazers_count)}</Text>
             <Icon
-              style={{marginLeft: 4}}
+              style={styles.countIcon}
               name="star"
               size={16}
               color="#f4b840"
             />
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{marginLeft: 20}}>
+          <View style={styles.countContainer}>
+            <Text style={styles.forksCount}>
               {Helpers.normalizeCount(selectedRepo.forks_count)}
             </Text>
             <Icon
-              style={{marginLeft: 4}}
+              style={styles.countIcon}
               name="code-fork"
               size={16}
               color="#f4b840"
@@ -119,6 +107,29 @@ const ItemDetail: React.FC = observer(() => {
       </View>
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {padding: 20, backgroundColor: '#fff', flex: 1},
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  repoName: {fontSize: 28, paddingRight: 20},
+  description: {marginTop: 16, fontSize: 16},
+  ownerContainer: {marginTop: 16, flexDirection: 'row', alignItems: 'center'},
+  ownerImage: {width: 28, height: 28},
+  ownerLogin: {marginLeft: 8, fontSize: 16},
+  infoContainer: {
+    flexDirection: 'row',
+    marginTop: 4,
+    justifyContent: 'space-between',
+  },
+  statsContainer: {flexDirection: 'row', alignItems: 'center'},
+  countContainer: {flexDirection: 'row'},
+  countIcon: {marginLeft: 4},
+  forksCount: {marginLeft: 20},
 });
 
 export default ItemDetail;
