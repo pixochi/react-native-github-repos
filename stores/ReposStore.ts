@@ -16,7 +16,6 @@ class ReposStore {
   @action
   fetchRepos = async () => {
     this.isFetchingRepos = true;
-    // TODO: add error handling
     const repos = await API.fetchGithubRepos(1);
 
     runInAction(() => {
@@ -29,7 +28,6 @@ class ReposStore {
   @action
   fetchMoreRepos = async () => {
     this.isFetchingMoreRepos = true;
-    // TODO: add error handling
     const repos = await API.fetchGithubRepos(this._fetchedPagesCount + 1);
 
     runInAction(() => {

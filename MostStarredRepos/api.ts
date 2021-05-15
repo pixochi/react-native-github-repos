@@ -21,10 +21,10 @@ export const fetchGithubRepos = async (
 
   const searchParams = ApiUtils.buildSearchParams(endpointParams);
 
-  // TODO: add error handling
   const response = await fetch(
     `${GITHUB_API_URL}${GITHUB_REPOS_ENDPOINT}?${searchParams}`,
   );
+
   const parsedResponse: GetRepositoriesEndpoint['response']['data'] = await response.json();
 
   return parsedResponse.items;
