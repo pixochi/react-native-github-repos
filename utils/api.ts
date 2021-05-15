@@ -3,7 +3,7 @@ export const buildSearchParams = (params: {
 }) => {
   const escape = encodeURIComponent;
   const searchParams = Object.keys(params)
-    .map(paramKey => escape(paramKey) + '=' + escape(params[paramKey]))
+    .map(paramKey => `${escape(paramKey)}=${escape(params[paramKey])}`)
     .join('&');
 
   return searchParams;
