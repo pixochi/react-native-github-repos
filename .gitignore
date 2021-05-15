@@ -60,3 +60,4 @@ buck-out/
 
 # Tests
 .jest
+coverage
